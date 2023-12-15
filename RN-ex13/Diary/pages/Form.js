@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Container from "../components/Container";
 import Contents from "../components/Contents";
 import Button from "../components/Button";
@@ -19,29 +19,67 @@ const Input = styled.TextInput`
     margin-bottom: 12px;
 `;
 
-function Form({navigation}) {
+function Form({navigation, route}) {
     const [date, setDate] = React.useState('');
-    const [ text,setText] = React.useState('');
+    const [text,setText] = React.useState('');
 
-    const store = async () => {
-        if( date === '') return;
-        if( text === '') return;
+    useEffect(() => {
+        if (route.params.isEdit) {
+            setDate(route.params.date);
+            setText(route.params.text);
+        }
+    }, [route.params.date, route.params.text, route.params.isEdit]);
+
+    const handleButtonPress = async () => {
+        if (date === '' || text === '') return;
 
         let list = await AsyncStorage.getItem('list');
-        if( list === null) {
+        if(list === null) {
             list = [];
-        }
-        else {
-            list = JSON.parse( list );
+        } else {
+            list = JSON.parse(list);
         }
 
-        list.push( {
-            date,
-            text,
-        });
+        if(route.params.isEdit) {
+            const updateDiaryIndex = list.findIndex(item => item.date === date);
+            if(updateDiaryIndex !== -1) {
+                list[updateDiaryIndex] = { date, text };
+            }
+        } else {
+            list.push({
+                date,
+                text,
+            });
+        }
+
         await AsyncStorage.setItem('list', JSON.stringify(list));
+
+        if(route.params.onEdit) {
+            route.params.onEdit();
+        }
+
         navigation.goBack();
     }
+
+    // const store = async () => {
+    //     if( date === '') return;
+    //     if( text === '') return;
+    
+    //     let list = await AsyncStorage.getItem('list');
+    //     if( list === null) {
+    //         list = [];
+    //     }
+    //     else {
+    //         list = JSON.parse( list );
+    //     }
+
+    //     list.push( {
+    //         date,
+    //         text,
+    //     });
+    //     await AsyncStorage.setItem('list', JSON.stringify(list));
+    //     navigation.goBack();
+    // }
 
     return (
         <Container>
@@ -61,8 +99,8 @@ function Form({navigation}) {
                     onChangeText={value => setText(value)}
                 />
             </Contents>
-            <Button onPress={store}>
-                저장
+            <Button onPress={handleButtonPress}>
+                {route.params.isEdit ? '수정' : '저장'}
             </Button>
         </Container>
     )

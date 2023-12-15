@@ -3,6 +3,7 @@ import Container from "../components/Container";
 import Contents from "../components/Contents";
 import styled from "styled-components/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Button } from "react-native";
 
 const Text = styled.Text
 `
@@ -26,6 +27,9 @@ function Detail( {navigation, route} ) {
             <Contents>
                 <Text>{ text }</Text>
             </Contents>
+            <Button title="목록으로"
+                        onPress={()=> navigation.goBack()} 
+            />
         </Container>
     )
 }
