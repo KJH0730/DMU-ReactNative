@@ -1,6 +1,7 @@
 // ./component/Row.js
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import styled from "styled-components/native";
 
 function Row( { children, style } ) {
     return (
@@ -15,5 +16,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     }
 })
+
+// const Row = styled.View`
+//     flex-direction: row;
+// `;
 
 export default Row;

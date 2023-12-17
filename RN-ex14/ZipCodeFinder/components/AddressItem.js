@@ -1,6 +1,7 @@
 // ./components/AddressItem.js
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import styled from 'styled-components/native';
 
 function AddressItem( { item } ) {
    return (
@@ -17,5 +18,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     }
 });
+
+// const Container = styled.View`
+//     padding-vertical: 12px;
+//     border-bottom-color: #666;
+//     border-bottom-width: 1px;
+// `;
 
 export default AddressItem;
