@@ -8,6 +8,7 @@ import _ from 'lodash';
 import { Button as Btn2 } from "react-native";
 import { View } from "react-native";
 
+
 const ListItem = styled.TouchableOpacity`
     width: 100%;
     padding: 12px;
